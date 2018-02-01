@@ -10,6 +10,7 @@ view: inventory_items {
   dimension: cost {
     type: number
     sql: ${TABLE}.cost ;;
+    value_format: "$0.00"
   }
 
   dimension_group: created {
@@ -49,5 +50,33 @@ view: inventory_items {
   measure: count {
     type: count
     drill_fields: [id, products.item_name, products.id, order_items.count]
+  }
+
+  measure: total_cost {
+    type:  sum
+    sql: ${cost};;
+    drill_fields: [id, sold_date , cost]
+    value_format: "$0.00"
+  }
+
+  measure: lowest_cost {
+    type: min
+    sql: ${cost} ;;
+    drill_fields: [id, products.item_name, products.id, order_items.count]
+    value_format: "$0.00"
+  }
+
+  measure: highest_cost {
+    type: max
+    sql:  ${cost} ;;
+    drill_fields: [id, products.item_name, products.id, order_items.count]
+    value_format: "$0.00"
+  }
+
+  measure: average_cost {
+    type: average
+    sql: ${cost} ;;
+    drill_fields: [id, products.item_name, products.id, order_items.count]
+    value_format: "$0.00"
   }
 }

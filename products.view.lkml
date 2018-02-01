@@ -46,4 +46,20 @@ view: products {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
   }
+
+  measure: total_retail_price {
+    type: sum
+    sql: ${retail_price};;
+    value_format: "$0.00"
+    drill_fields: [id, category, department, brand, retail_price]
+  }
+
+  measure: average_retail_price {
+    type: average
+    sql: ${retail_price} ;;
+    value_format: "$0.00"
+    drill_fields: [id, category, department, brand, retail_price]
+  }
+
+
 }

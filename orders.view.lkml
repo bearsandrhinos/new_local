@@ -36,4 +36,26 @@ view: orders {
     type: count
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
   }
+
+  measure: cancel_count {
+    description: "The amount of cancelled orders."
+    type: count
+    drill_fields: [id, users.first_name, users.last_name, users.state, products.name]
+    filters: {
+      field: status
+      value: "Cancelled"
+    }
+  }
+
+  measure: pending_count {
+    description: "The amount of orders that are pending at the moment."
+    type: count
+    drill_fields: [id, users.first_name, users.last_name, users.state, products.name]
+    filters: {
+      field: status
+      value: "Pending"
+    }
+  }
+
+
 }

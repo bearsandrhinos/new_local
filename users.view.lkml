@@ -59,12 +59,19 @@ view: users {
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.state ;;
   }
 
   dimension: zip {
     type: zipcode
+    map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.zip ;;
+  }
+
+  dimension: full_name {
+    type: string
+    sql: CONCAT(${first_name}, " " , ${last_name}) ;;
   }
 
   measure: count {
