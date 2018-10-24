@@ -1,5 +1,5 @@
-- dashboard: basic_lookml_dash
-  title: Basic Lookml Dash
+- dashboard: dash_fun
+  title: Dash Fun
   layout: newspaper
   elements:
   - title: Untitled
@@ -31,6 +31,8 @@
     show_x_axis_ticks: true
     x_axis_scale: auto
     y_axis_scale_mode: linear
+    y_axis_min: 10000
+    y_axis_max: 2000000
     show_null_points: true
     point_style: none
     interpolation: linear
@@ -40,7 +42,21 @@
     show_silhouette: false
     totals_color: "#808080"
     series_types: {}
+    listen: {}
     row: 0
     col: 0
     width: 8
     height: 6
+  filters:
+  - name: Untitled Filter
+    title: Untitled Filter
+    type: string_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+  - name: Untitled Filter 2
+    title: Untitled Filter 2
+    type: date_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false

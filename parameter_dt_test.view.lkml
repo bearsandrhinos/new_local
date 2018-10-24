@@ -1,31 +1,49 @@
-explore: users {
-
+explore: parameter_dt_test {
+  from: parameter_dt_test
 }
 
-view: users {
+view: parameter_dt_test {
+#   sql_table_name: demo_db.users ;;
+  #Or, you could make this view a derived table, like this:
+  derived_table: {
+    sql: SELECT
+          * From demo_db.users
+          where {% condition sex %} users.gender {% endcondition %} AND {% condition states %} users.state {% endcondition %};;
 
-  sql_table_name: demo_db.users ;;
+
+          }
+
+
+
+
+parameter: test {
+  type:string
+  suggest_explore: parameter_dt_test
+  suggest_dimension: parameter_dt_test.state
+  suggest_persist_for: "5 seconds"
+  }
+
 
   dimension: id {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
   }
-  parameter: order_state {
-    type: string
-    suggest_explore: templated_dt
-    suggest_dimension: state
-  }
-  parameter: sex {
+
+  filter: sex {
     label: "tjerfsdfdsfk;vas"
     type: string
-    suggest_dimension: gender
+    suggest_dimension: parameter_dt_test.gender
+  }
+
+  filter: states {
+    type: string
+    suggest_dimension: state
   }
 
   dimension: age {
     type: number
     sql: ${TABLE}.age ;;
-
   }
 
   dimension: city {
@@ -34,27 +52,22 @@ view: users {
   }
 
   dimension: country {
-    view_label: "Users country"
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
-  dimension: filter_key {
-    sql: concat(${first_name}, "_", ${last_name}, ${country}) ;;
-  }
-
   dimension_group: created {
     type: time
-#     timeframes: [
-#       raw,
-#       time,
-#       date,
-#       week,
-#       month,
-#       quarter,
-#       year
-#     ]
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.created_at ;;
   }
 
@@ -95,11 +108,6 @@ view: users {
     sql: CONCAT(${first_name}, " " , ${last_name}) ;;
   }
 
-  dimension: filter_test {
-    type: string
-    sql: concat(${first_name}, ":", ${last_name}, " : ", ${state}, " ;", ${city}) ;;
-  }
-
   parameter: cost_per_user {
     type: number
   }
@@ -114,31 +122,6 @@ view: users {
     sql: ${count}/{% parameter cost_per_user %} ;;
   }
 
-  # measure: min_date {
-  #   type: date_time
-  #   sql: min(${orders.created_time}) ;;
-  #   convert_tz: no
-  # }
-
-  measure: state_list {
-    type: list
-    list_field: state
-  }
-
-  measure: city_list {
-    type: list
-    list_field: city
-  }
-
-  # measure: count_30 {
-  #   type: count_distinct
-  #   sql: ${id} ;;
-  #   filters: {
-  #     field: orders.created_date
-  #     value: "30 days"
-  #   }
-  # }
-
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
@@ -150,4 +133,6 @@ view: users {
       user_data.count
     ]
   }
-}
+
+
+          }
