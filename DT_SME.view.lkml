@@ -1,37 +1,44 @@
-# explore: dt_sme {}
+explore: dt_sme {}
 
-# view: dt_sme {
-#   # Or, you could make this view a derived table, like this:
-#   derived_table: {
-#     sql: SELECT
-#             orders.id  AS order_id,
-#             orders.user_id  AS user_id,
-#             users.city  AS city,
-#             COUNT(*) AS count_of_items
-#             FROM order_items  AS order_items
-# LEFT JOIN orders  AS orders ON order_items.Order_Id = orders.id
-# LEFT JOIN users  AS users ON orders.user_id = users.id
+view: dt_sme {
+  # Or, you could make this view a derived table, like this:
+  derived_table: {
+    sql: SELECT
+            orders.id  AS order_id,
+            orders.user_id  AS user_id,
+            users.city  AS city
+
+            FROM order_items  AS order_items
+LEFT JOIN orders  AS orders ON order_items.Order_Id = orders.id
+LEFT JOIN users  AS users ON orders.user_id = users.id
+
+where {% condition one_number %} user_id {% endcondition %}/100
+
+
+
+LIMIT 500
+      ;;
+  }
 #
-# GROUP BY 1,2,3
-# ORDER BY COUNT(*) DESC
-# LIMIT 500
-#       ;;
-#   }
-#
-#   dimension: order_id {
-#     type: number
-#     sql: ${TABLE}.order_id ;;
-#   }
-#
-#   dimension: user_id {
-#     type: number
-#     sql: ${TABLE}.user_id ;;
-#   }
-#
-#   dimension: city {
-#     type: string
-#     sql: ${TABLE}.city ;;
-#   }
+
+filter: one_number {
+  type: number
+}
+  dimension: order_id {
+    type: number
+    sql: ${TABLE}.order_id ;;
+  }
+
+  dimension: user_id {
+    type: number
+    sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: city {
+    type: string
+    sql: ${TABLE}.city ;;
+  }
+  }
 #
 #   dimension: count_of_items {
 #     type: number

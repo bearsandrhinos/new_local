@@ -10,6 +10,7 @@ view: products {
   filter: to_filter {
     type: string
     case_sensitive: no
+    sql: ${rank} ;;
   }
 
   filter: to_filter2 {

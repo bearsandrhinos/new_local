@@ -34,9 +34,14 @@ persist_with: peter_whitehead_model_building_default_datagroup
 
 explore: order_items {
 #   hidden: yes
+# sql_always_where: ${orders.created_date} <= {% date_start order_items.this_better_work %} ;;
 
   from: order_items
   view_name: order_items
+  access_filter: {
+    field: users.state
+    user_attribute: state
+  }
   join: inventory_items {
     view_label: "Inventory Items"
     type: left_outer
@@ -47,7 +52,7 @@ explore: order_items {
   join: orders {
     view_label: "Orders"
     #Blank fields will hide the view in the explore
-    #fields: []
+    fields: []
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
     relationship: many_to_one

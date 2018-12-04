@@ -130,6 +130,31 @@ view: users {
     list_field: city
   }
 
+  dimension: bug_action {
+    type:  string
+    sql: 'Log Corrective Action' ;;
+    action: {
+      label: "Log Action"
+      url: "https://hooks.zapier.com/hooks/catch/2940751/epq7p7/"
+      param: {
+        name: "action_type"
+        value: "ops_alert_corrective_action"
+      }
+      param: {
+        name: "action_state"
+        value: "{{ state._value }}"
+      }
+      param: {
+        name: "alert_id"
+        value: "{{ id._value }}"
+      }
+      param: {
+        name: "First Name"
+        value: "{{ first_name._value }}"
+      }
+    }
+  }
+
   # measure: count_30 {
   #   type: count_distinct
   #   sql: ${id} ;;

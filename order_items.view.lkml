@@ -1,6 +1,22 @@
 view: order_items {
   sql_table_name: demo_db.order_items ;;
 
+# sql_table_name:   {% if event.created_date._in_query %}
+#     event_by_day
+#   {% elsif event.created_week._in_query %}
+#     event_by_week
+#   {% else %}
+#     event
+#   {% endif %}  ;;
+
+  filter: this_better_work {
+    type: date
+  }
+
+  parameter: jam_it {
+    type: unquoted
+  }
+
   dimension: id {
     primary_key: yes
     type: number
@@ -138,6 +154,10 @@ measure: cheap_count  {
     sql: ${sale_price} ;;
     drill_fields: [detail1*]
     value_format: "$0.00"
+  }
+
+  measure: sum_star {
+    type: sum
   }
 
   parameter: gsv {

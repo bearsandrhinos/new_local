@@ -1,5 +1,4 @@
-# Home
+# Welcome to Flavortown!
+I'm Guy Fieri and we are rolling out looking at Looker's greatest dashboards, looks and explores
 
-Put your documentation here! Your text is rendered with [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown).
-
-Click the "Edit Source" button above to make changes.
+<img src="https://media.giphy.com/media/Tr42xLtwh4CvS/giphy.gif" width="75%"/>
