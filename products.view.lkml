@@ -49,14 +49,14 @@ view: products {
 
   measure: count_cat {
     type: count
-    sql: ${to_hide} ;;
+    # sql: ${to_hide} ;;
   }
 
-  measure: count_cat_nonhide {
-    type: count
-    sql: CASE WHEN ${category} = "Suits" THEN "Skirts"
-          ELSE ${category} end;;
-  }
+  # measure: count_cat_nonhide {
+  #   type: count
+  #   sql: CASE WHEN ${category} = "Suits" THEN "Skirts"
+  #         ELSE ${category} end;;
+  # }
 
   measure: count_distinct {
     type: count_distinct

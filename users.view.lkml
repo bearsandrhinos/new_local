@@ -109,6 +109,17 @@ view: users {
     drill_fields: [detail*]
   }
 
+  measure: count_distinct {
+    type: count_distinct
+    sql: COALESCE(${id}, 0) ;;
+    sql_distinct_key: ${id} ;;
+  }
+
+  measure: count_non_null {
+    type: number
+    sql: case when isnull(${count_distinct}) = 1 then 0 else ${count_distinct} ;;
+  }
+
   measure: cost_user {
     type: number
     sql: ${count}/{% parameter cost_per_user %} ;;

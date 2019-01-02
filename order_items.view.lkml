@@ -149,6 +149,12 @@ measure: cheap_count  {
     value_format: "$0.00"
   }
 
+  measure: test_avg_drill {
+    type: number
+    sql: ${average_sale_price} ;;
+    html: {{ order_items.average_sale_price._linked_value }} ;;
+  }
+
   measure: average_sale_price {
     type:  average
     sql: ${sale_price} ;;
@@ -211,7 +217,7 @@ measure: cheap_count  {
     sql: ${total_revenue} - ${inventory_items.total_cost} ;;
     drill_fields: [detail1*]
     value_format: "$0.00"
-    value_format_name: usd
+    # value_format_name: usd
     html:   <font color="red">{{rendered_value}}</font>;;
     #you can't do a filtered measure of type: number
 #     filters: {
