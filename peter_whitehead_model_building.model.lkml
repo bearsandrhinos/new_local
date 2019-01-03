@@ -52,7 +52,7 @@ explore: order_items {
   join: orders {
     view_label: "Orders"
     #Blank fields will hide the view in the explore
-    fields: []
+    # fields: []
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
     relationship: many_to_one

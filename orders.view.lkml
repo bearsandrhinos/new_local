@@ -51,10 +51,49 @@ view: orders {
     ]
     sql: ${TABLE}.created_at ;;
   }
-
-  dimension: just_the_time {
-
+  #Thought I was going to need this parameter but I don't
+  ####leave it just as an example
+  parameter: period_and_previous {
+    type: unquoted
+    default_value: "week"
+    allowed_value: {
+      label: "Week-to-date"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Month-to-date"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Year-to-day"
+      value: "year"
+    }
   }
+
+
+###Use this dimension if you are using the parameter
+  # dimension: until_today {
+  #   type: yesno
+  #   sql: {% if period_and_previous._parameter_value == 'week' %}
+  #           ${created_day_of_week_index} <= WEEKDAY(NOW()) AND ${created_day_of_week_index} >= 0
+  #         {% elsif period_and_previous._parameter_value == 'month' %}
+  #           ${created_day_of_month} <= DAYOFMONTH(NOW()) AND ${created_day_of_month} >=0
+  #         {% elsif period_and_previous._parameter_value == 'year' %}
+  #         ${created_day_of_year} <= DAYOFMONTH(NOW()) AND ${created_day_of_year} >=0
+  #         {% endif %} ;;
+  #   }
+
+  dimension: until_today {
+    type: yesno
+    sql: {% if orders.created_week._in_query %}
+            ${created_day_of_week_index} <= WEEKDAY(NOW()) AND ${created_day_of_week_index} >= 0
+          {% elsif orders.created_month._in_query %}
+            ${created_day_of_month} <= DAYOFMONTH(NOW()) AND ${created_day_of_month} >=0
+          {% elsif orders.created_year._in_query %}
+           ${created_day_of_year} <= DAYOFMONTH(NOW()) AND ${created_day_of_year} >=0
+          {% endif %} ;;
+  }
+
 
   dimension: month_name {
     label: "Mother Fucking Month Name"
