@@ -38,10 +38,11 @@ explore: order_items {
 
   from: order_items
   view_name: order_items
-  access_filter: {
-    field: users.state
-    user_attribute: state
-  }
+  #This is how to define user attributes on a model basis
+#   access_filter: {
+#     field: users.state
+#     user_attribute: state
+#   }
   join: inventory_items {
     view_label: "Inventory Items"
     type: left_outer
@@ -83,6 +84,8 @@ explore: order_items {
 
 explore: orders {
   label: "Orders"
+
+  # This is adding a where statement for age >20 ONLY if the users view is in the query
   sql_always_where:
   {% if users._in_query %}
     users.age > 20

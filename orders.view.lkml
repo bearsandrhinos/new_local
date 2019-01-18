@@ -70,29 +70,39 @@ view: orders {
     }
   }
 
+  dimension: this_and_that {
+    type: string
+    sql: CASE WHEN EXTRACT({{ period_and_previous._parameter_value }} FROM ${created_raw}) =
+                   EXTRACT({{ period_and_previous._parameter_value }} FROM now()) AND
+                  ${created_raw} <= now() THEN "This period to date"
+              WHEN EXTRACT({{ period_and_previous._parameter_value }} FROM ${created_raw}) +1 =
+                   EXTRACT({{ period_and_previous._parameter_value }} FROM now()) AND
+                  DAYOFYEAR(${created_raw}) <= DAYOFYEAR(now()) THEN "Last period to date" END;;
+  }
+
 
 ###Use this dimension if you are using the parameter
-  # dimension: until_today {
-  #   type: yesno
-  #   sql: {% if period_and_previous._parameter_value == 'week' %}
-  #           ${created_day_of_week_index} <= WEEKDAY(NOW()) AND ${created_day_of_week_index} >= 0
-  #         {% elsif period_and_previous._parameter_value == 'month' %}
-  #           ${created_day_of_month} <= DAYOFMONTH(NOW()) AND ${created_day_of_month} >=0
-  #         {% elsif period_and_previous._parameter_value == 'year' %}
-  #         ${created_day_of_year} <= DAYOFMONTH(NOW()) AND ${created_day_of_year} >=0
-  #         {% endif %} ;;
-  #   }
-
   dimension: until_today {
     type: yesno
-    sql: {% if orders.created_week._in_query %}
+    sql: {% if period_and_previous._parameter_value == 'week' %}
             ${created_day_of_week_index} <= WEEKDAY(NOW()) AND ${created_day_of_week_index} >= 0
-          {% elsif orders.created_month._in_query %}
+          {% elsif period_and_previous._parameter_value == 'month' %}
             ${created_day_of_month} <= DAYOFMONTH(NOW()) AND ${created_day_of_month} >=0
-          {% elsif orders.created_year._in_query %}
-           ${created_day_of_year} <= DAYOFMONTH(NOW()) AND ${created_day_of_year} >=0
+          {% elsif period_and_previous._parameter_value == 'year' %}
+          ${created_day_of_year} <= DAYOFMONTH(NOW()) AND ${created_day_of_year} >=0
           {% endif %} ;;
-  }
+    }
+
+#   dimension: until_today {
+#     type: yesno
+#     sql: {% if orders.created_week._in_query %}
+#             ${created_day_of_week_index} <= WEEKDAY(NOW()) AND ${created_day_of_week_index} >= 0
+#           {% elsif orders.created_month._in_query %}
+#             ${created_day_of_month} <= DAYOFMONTH(NOW()) AND ${created_day_of_month} >=0
+#           {% elsif orders.created_year._in_query %}
+#            ${created_day_of_year} <= DAYOFMONTH(NOW()) AND ${created_day_of_year} >=0
+#           {% endif %} ;;
+#   }
 
 
   dimension: month_name {
