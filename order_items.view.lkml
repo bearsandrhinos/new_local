@@ -1,5 +1,5 @@
 view: order_items {
-  sql_table_name: demo_db.order_items ;;
+  sql_table_name: looker-private-demo.ecomm.order_items ;;
 
 # sql_table_name:   {% if event.created_date._in_query %}
 #     event_by_day
@@ -31,6 +31,12 @@ view: order_items {
                     products.category,
                     products.brand,
                     products.name]
+  }
+
+  dimension_group: created {
+    type: time
+    timeframes: []
+    sql: ${TABLE}.created_at ;;
   }
 
   dimension: order_id {

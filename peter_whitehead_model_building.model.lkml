@@ -1,4 +1,4 @@
-connection: "thelook"
+connection: "bq"
 
 # include all the views
 include: "*.view"
@@ -72,6 +72,11 @@ explore: order_items {
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  # join: category_pivot {
+  #   view_label: "Products"
+  #   type: left_outer
+  #   sql_on: ${products.category} = ${category_pivot.categories_1} ;;
+  # }
 
 #   join: top_10_brands {
 #     type: left_outer
@@ -109,17 +114,21 @@ explore: orders {
 
 explore: products {
   #this is to get a doesn't contains and contains filters in the same explore
-  sql_always_where:
-  (
-  {% condition products.to_filter %} ${category} {% endcondition %}
-  AND {% condition products.to_filter %} ${department} {% endcondition %}
-  AND {% condition products.to_filter %} ${brand} {% endcondition %}
-  ) OR
-  (
-  {% condition products.to_filter2 %} ${category} {% endcondition %}
-  OR {% condition products.to_filter2 %} ${department} {% endcondition %}
-  OR {% condition products.to_filter2 %} ${brand} {% endcondition %}
-  );;
+  # sql_always_where:
+  # (
+  # {% condition products.to_filter %} ${category} {% endcondition %}
+  # AND {% condition products.to_filter %} ${department} {% endcondition %}
+  # AND {% condition products.to_filter %} ${brand} {% endcondition %}
+  # ) OR
+  # (
+  # {% condition products.to_filter2 %} ${category} {% endcondition %}
+  # OR {% condition products.to_filter2 %} ${department} {% endcondition %}
+  # OR {% condition products.to_filter2 %} ${brand} {% endcondition %}
+  # );;
+  # join: category_pivot {
+  #   type: left_outer
+  #   sql_on: ${products.category} = ${category_pivot.categories_1} ;;
+  # }
 }
 
 explore: schema_migrations {}

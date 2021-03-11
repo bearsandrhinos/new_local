@@ -1,5 +1,5 @@
 view: products {
-  sql_table_name: demo_db.products ;;
+  sql_table_name: looker-private-demo.ecomm.products ;;
 
   dimension: id {
     primary_key: yes
@@ -41,6 +41,30 @@ view: products {
     sql: ${TABLE}.category ;;
   }
 
+  filter: brand_filter {
+    type: string
+    suggest_dimension: products.brand
+  }
+
+  dimension: brand_filter_metric {
+    type: yesno
+    sql: {% condition brand_filter %} ${brand} {% endcondition %};;
+  }
+
+  dimension: categories {
+    type: string
+    sql: CASE WHEN {% condition brand_filter %} ${brand} {% endcondition %} THEN
+            ${category}
+            ELSE
+            null
+            END ;;
+  }
+
+  measure: brand_count {
+    type: count
+    filters: [brand_filter_metric: "Yes"]
+  }
+
   dimension: to_hide {
     type: string
     sql: CASE WHEN ${category} = "Jeans" THEN "Dresses"
@@ -70,7 +94,7 @@ view: products {
 
   dimension: item_name {
     type: string
-    sql: ${TABLE}.item_name ;;
+    sql: ${TABLE}.name ;;
   }
 
   dimension: rank {
@@ -139,3 +163,14 @@ view: products {
 
 
 }
+
+
+# view: category_pivot {
+#   derived_table: {
+#     explore_source: order_items {
+#       column: categories_1 { field: products.categories }
+#       bind_all_filters: yes
+#     }
+#   }
+#   dimension: categories_1 {}
+# }

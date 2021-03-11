@@ -1,5 +1,5 @@
 view: user_data {
-  sql_table_name: demo_db.user_data ;;
+  sql_table_name: looker-private-demo.ecomm.user_data ;;
 
   dimension: id {
     primary_key: yes

@@ -4,7 +4,7 @@ explore: users {
 
 view: users {
 
-  sql_table_name: demo_db.users ;;
+  sql_table_name: looker-private-demo.ecomm.users ;;
 
   dimension: id {
     primary_key: yes
@@ -19,7 +19,7 @@ view: users {
   parameter: sex {
     label: "tjerfsdfdsfk;vas"
     type: string
-    suggest_dimension: gender
+    suggest_dimension: users.gender
   }
 
   dimension: age {

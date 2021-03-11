@@ -1,5 +1,5 @@
 view: orders {
-  sql_table_name: demo_db.orders ;;
+  sql_table_name: looker-private-demo.ecomm.orders ;;
 
   filter: last_weeks_orders {
     type: date
